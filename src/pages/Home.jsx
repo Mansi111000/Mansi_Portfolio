@@ -197,11 +197,11 @@ const Home = ({ isLoading }) => {
     },
     {
       category: "Database Management",
-      items: ["SQLite", "Redis", "MongoDB"]
+      items: ["SQLite", "Redis"]
     },
     {
       category: "Data Analytics & Visualization",
-      items: ["Tableau", "Power BI", "Data Visualization"]
+      items: ["Tableau","Data Visualization"]
     }
   ];
 
@@ -473,29 +473,14 @@ const Home = ({ isLoading }) => {
       </main>
 
       {/* About Section Content - Added ref and conditional classes */}
-      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh animate-gradient-xy overflow-hidden transition-all duration-700 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Animated background elements - repeated for each section for visual separation if needed, or can be removed if background is only on the main div */}
-         {/* Keeping here for now, can optimize later */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent animate-pulse-slow"></div>
-         <div className="absolute inset-0 bg-gradient-conic from-primary-200/20 via-transparent to-accent-200/20 animate-gradient-xy"></div>
-         <div className="absolute inset-0">
-           {[...Array(20)].map((_, i) => (
-             <div
-               key={i}
-               className="absolute w-2 h-2 bg-primary-300/30 rounded-full animate-float"
-               style={{
-                 left: `${Math.random() * 100}%`,
-                 top: `${Math.random() * 100}%`,
-                 animationDelay: `${Math.random() * 5}s`,
-               }}
-             />
-           ))}
-         </div>
-
-         <div className="max-w-4xl w-full space-y-12 animate-fade-in">
+      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         {/* Simplified background */}
+         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent"></div>
+         
+         <div className="max-w-4xl w-full space-y-12">
            {/* About Content */}
-           <div className="text-center space-y-6 animate-slide-up">
-             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x">
+           <div className="text-center space-y-6">
+             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                About Me
              </h2>
              <div className="text-lg md:text-xl text-secondary-600 max-w-2xl mx-auto leading-relaxed">
@@ -509,9 +494,9 @@ const Home = ({ isLoading }) => {
              </div>
            </div>
 
-           {/* Education Section from original About.jsx */}
-           <div className="w-full animate-scale-in">
-             <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent animate-gradient-x">
+           {/* Education Section */}
+           <div className="w-full">
+             <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
                Educational Background
              </h3>
              {/* Adjusted grid for exactly two items */}
@@ -519,17 +504,15 @@ const Home = ({ isLoading }) => {
                {education.map((edu, index) => (
                  <div
                    key={index}
-                   className={`bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${index === 0 ? 'animate-scale-in' : 'animate-fade-in'}`}
-                   style={{ animationDelay: `${index * 0.3 + 0.3}s` }} // Staggered animation delay
+                   className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                  >
                    <div className="flex items-center mb-3">
                      <h4 className="text-xl font-semibold text-primary-700 flex items-center">
-                       {edu.degree} {index === 0 ? '🎓' : '📜'}{/* Keep degree emojis */}
+                       {edu.degree} {index === 0 ? '🎓' : '📜'}
                      </h4>
                    </div>
                    <p className="text-lg text-secondary-600 mb-2 font-bold">{edu.institution}</p>
                    <p className="text-base text-secondary-600 font-medium mb-3">{edu.period}</p>
-                   {/* Only render description if it exists */}
                    {edu.description && <p className="text-secondary-700 text-sm leading-relaxed">{edu.description}</p>}
                  </div>
                ))}
@@ -539,26 +522,12 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Projects Section Content - Added ref and conditional classes */}
-      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh animate-gradient-xy overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Animated background elements - repeated */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent animate-pulse-slow"></div>
-         <div className="absolute inset-0 bg-gradient-conic from-primary-200/20 via-transparent to-accent-200/20 animate-gradient-xy"></div>
-         <div className="absolute inset-0">
-           {[...Array(20)].map((_, i) => (
-             <div
-               key={i}
-               className="absolute w-2 h-2 bg-primary-300/30 rounded-full animate-float"
-               style={{
-                 left: `${Math.random() * 100}%`,
-                 top: `${Math.random() * 100}%`,
-                 animationDelay: `${Math.random() * 5}s`,
-               }}
-             />
-           ))}
-         </div>
-
-         <div className="max-w-6xl w-full space-y-8 animate-fade-in">
-           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x pb-2">
+      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         {/* Simplified background */}
+         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent"></div>
+         
+         <div className="max-w-6xl w-full space-y-8">
+           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
              Projects
            </h2>
            {/* Projects Grid */}
@@ -567,23 +536,22 @@ const Home = ({ isLoading }) => {
                <div
                  key={project.title}
                  className={`relative block visible opacity-100 bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:scale-105 
-                   ${index === 0 ? 'animate-slide-up' : index === 1 ? 'animate-slide-down' : 'animate-fade-in'}
                    ${index % 2 === 0 ? 'border-l-4 border-primary-500' : 'border-r-4 border-accent-500'}
                  `}
-                 style={{ animationDelay: `${index * 0.3}s` }}
                >
                  <div className="relative w-full bg-gray-50 flex items-center justify-center p-4">
                    <img 
                      src={project.imageUrl || 'https://via.placeholder.com/600x400?text=Project+Image'} 
-                     alt={`${project.title} preview`} 
+                     alt={`${project.title} preview`}
                      className="w-auto h-auto max-w-full max-h-[250px] object-contain"
                      loading="lazy"
+                     decoding="async"
+                     fetchpriority={index < 2 ? "high" : "low"}
                    />
                  </div>
                  
                  <div className="p-4 sm:p-5 md:p-6 space-y-3">
                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 line-clamp-2">{project.title}</h3>
-                   {/* Ensure full description is visible on web view, potentially truncated on mobile */}
                    <p className="text-sm sm:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                      {project.tech.map((tech) => (
@@ -679,34 +647,20 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Skills Section (NEW) - Added ref and conditional classes */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-shine animate-background-shift overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Animated background elements - using a different one for variety */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-200/30 to-transparent animate-pulse-slow"></div>
-         <div className="absolute inset-0 bg-gradient-conic from-accent-200/20 via-transparent to-secondary-200/20 animate-gradient-xy"></div>
-         <div className="absolute inset-0">
-           {[...Array(20)].map((_, i) => (
-             <div
-               key={i}
-               className="absolute w-2 h-2 bg-primary-400/40 rounded-full animate-float"
-               style={{
-                 left: `${Math.random() * 100}%`,
-                 top: `${Math.random() * 100}%`,
-                 animationDelay: `${Math.random() * 5}s`,
-               }}
-             />
-           ))}
-         </div>
-
-         <div className="max-w-4xl w-full space-y-8 animate-fade-in">
-           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent animate-gradient-x pb-2">
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-shine overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         {/* Simplified background */}
+         <div className="absolute inset-0 bg-gradient-radial from-primary-200/30 to-transparent"></div>
+         
+         <div className="max-w-4xl w-full space-y-8">
+           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
            </h2>
-           {/* Skills Section */}
+           {/* Skills Section - Optimized grid */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
              {/* First column */}
              <div className="space-y-4 sm:space-y-6">
-               {skills.slice(0, 3).map((skillCategory, categoryIndex) => (
-                 <div key={skillCategory.category} className={`bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg animate-slide-up`} style={{ animationDelay: `${categoryIndex * 0.2}s` }}>
+               {skills.slice(0, 3).map((skillCategory) => (
+                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
                      {skillCategory.category === 'Programming Languages' && <span className="mr-2">💻</span>}
                      {skillCategory.category === 'Frameworks & Libraries' && <span className="mr-2">🧱</span>}
@@ -714,11 +668,10 @@ const Home = ({ isLoading }) => {
                      {skillCategory.category}
                    </h3>
                    <div className="flex flex-wrap gap-2">
-                     {skillCategory.items.map((skill, skillIndex) => (
+                     {skillCategory.items.map((skill) => (
                        <span
                          key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md animate-scale-in"
-                         style={{ animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.05}s` }}
+                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md"
                        >
                          {skill}
                        </span>
@@ -730,28 +683,8 @@ const Home = ({ isLoading }) => {
              
              {/* Second column */}
              <div className="space-y-4 sm:space-y-6">
-               {/* Version Control */}
-               <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg animate-slide-up">
-                 <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                   <span className="mr-2">🔄</span>
-                   Version Control
-                 </h3>
-                 <div className="flex flex-wrap gap-2">
-                   {skills[3].items.map((skill, skillIndex) => (
-                     <span
-                       key={skill}
-                       className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md animate-scale-in"
-                       style={{ animationDelay: `${skillIndex * 0.05}s` }}
-                     >
-                       {skill}
-                     </span>
-                   ))}
-                 </div>
-               </div>
-
-               {/* Remaining categories */}
-               {skills.slice(4).map((skillCategory, categoryIndex) => (
-                 <div key={skillCategory.category} className={`bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg animate-slide-up`} style={{ animationDelay: `${(categoryIndex + 1) * 0.2}s` }}>
+               {skills.slice(3).map((skillCategory) => (
+                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
                      {skillCategory.category === 'Cloud & Deployment' && <span className="mr-2">☁️</span>}
                      {skillCategory.category === 'Markup & Styling' && <span className="mr-2">🎨</span>}
@@ -760,11 +693,10 @@ const Home = ({ isLoading }) => {
                      {skillCategory.category}
                    </h3>
                    <div className="flex flex-wrap gap-2">
-                     {skillCategory.items.map((skill, skillIndex) => (
+                     {skillCategory.items.map((skill) => (
                        <span
                          key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md animate-scale-in"
-                         style={{ animationDelay: `${(categoryIndex + 1) * 0.2 + skillIndex * 0.05}s` }}
+                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md"
                        >
                          {skill}
                        </span>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Github, Linkedin, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
@@ -6,36 +6,53 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      // Update active section based on scroll position
-      const sections = ['home', 'about', 'projects', 'experience', 'skills', 'contact'];
-      const scrollPosition = window.scrollY;
+  // Debounce function
+  const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
 
-      // Special handling for home section
-      if (scrollPosition < 100) {
+  // Memoized scroll handler
+  const handleScroll = useCallback(
+    debounce(() => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 20);
+      
+      const sections = ['home', 'about', 'projects', 'experience', 'skills', 'contact'];
+
+      // Special handling for home section - adjusted threshold for better mobile experience
+      if (scrollPosition < 50) {
         setActiveSection('home');
         return;
       }
 
-      // Find the current section
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
+      // Find the current section using getBoundingClientRect for better performance
+      const currentSection = sections.find(section => {
         const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop } = element;
-          if (scrollPosition >= offsetTop - 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        // Adjusted threshold for better mobile detection
+        return rect.top <= 80 && rect.bottom >= 80;
+      });
 
-    window.addEventListener('scroll', handleScroll);
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    }, 100),
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   const navLinks = [
     { id: 'home', label: 'Home' },
@@ -48,12 +65,17 @@ const Navbar = () => {
 
   const handleSectionNavigate = (sectionId) => {
     if (sectionId === 'home') {
-      // Special handling for home section
+      // Special handling for home section with improved scroll behavior
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
+      // Set active section immediately for better UX
       setActiveSection('home');
+      // Force update scroll position after animation
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 500);
     } else {
       const section = document.getElementById(sectionId);
       if (section) {

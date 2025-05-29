@@ -1,8 +1,25 @@
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const SectionNavigation = ({ currentSection, onNavigate }) => {
   const sections = ['home', 'about', 'projects', 'experience', 'skills', 'contact'];
   const currentIndex = sections.indexOf(currentSection);
+  const [showUpArrow, setShowUpArrow] = useState(true);
+
+  // Add scroll position check
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      // Only show up arrow if we're not in home section AND we've scrolled down
+      setShowUpArrow(currentSection !== 'home' && scrollPosition > 20);
+    };
+
+    // Initial check
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [currentSection]); // Add currentSection to dependencies
 
   const handleUpClick = () => {
     if (currentSection === 'about') {
@@ -12,6 +29,10 @@ const SectionNavigation = ({ currentSection, onNavigate }) => {
         behavior: 'smooth'
       });
       onNavigate('home');
+      // Force hide up arrow after clicking
+      setTimeout(() => {
+        setShowUpArrow(false);
+      }, 100);
     } else if (currentIndex > 0) {
       onNavigate(sections[currentIndex - 1]);
     }
@@ -24,7 +45,6 @@ const SectionNavigation = ({ currentSection, onNavigate }) => {
   };
 
   // Determine which arrows to show
-  const showUpArrow = currentSection !== 'home';
   const showDownArrow = currentSection !== 'contact';
 
   return (
