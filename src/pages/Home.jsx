@@ -405,7 +405,7 @@ const Home = ({ isLoading }) => {
             {/* Replace social links with Download CV button */}
             <div className="flex justify-center mt-8">
               <a
-                href="https://drive.google.com/file/d/1c92n77UtQnW1LxXKJEfddAIhruGVTwo5/view?usp=sharing" // Replace with your actual Google Drive link
+                href="https://drive.google.com/file/d/12SSBv18T6qxz24-V_rrQEt6awgJTf7wn/view?usp=drive_link" // Replace with your actual Google Drive link
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 ease-out transform rounded-lg shadow-lg bg-gradient-to-r from-primary-600 to-accent-600 hover:scale-105 hover:shadow-xl active:scale-95"
