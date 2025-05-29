@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Github, Linkedin, Mail, ChevronDown, BookOpen, Award, ExternalLink, User } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, BookOpen, Award, ExternalLink, User, Code2, Library, Brain, Cloud, Palette, Database, BarChart3, GitBranch, Layers } from 'lucide-react';
 import SectionNavigation from '../components/SectionNavigation';
 
 const Home = ({ isLoading }) => {
@@ -527,9 +527,11 @@ const Home = ({ isLoading }) => {
          <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent"></div>
          
          <div className="max-w-6xl w-full space-y-8">
-           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-             Projects
-           </h2>
+           <div className="text-center mb-12">
+             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words">
+               Projects
+             </h2>
+           </div>
            {/* Projects Grid */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              {projects.map((project, index) => (
@@ -551,7 +553,9 @@ const Home = ({ isLoading }) => {
                  </div>
                  
                  <div className="p-4 sm:p-5 md:p-6 space-y-3">
-                   <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 line-clamp-2">{project.title}</h3>
+                   <div className="min-h-[60px]">
+                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
+                   </div>
                    <p className="text-sm sm:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                      {project.tech.map((tech) => (
@@ -662,9 +666,9 @@ const Home = ({ isLoading }) => {
                {skills.slice(0, 3).map((skillCategory) => (
                  <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Programming Languages' && <span className="mr-2">💻</span>}
-                     {skillCategory.category === 'Frameworks & Libraries' && <span className="mr-2">🧱</span>}
-                     {skillCategory.category === 'Machine Learning & AI' && <span className="mr-2">🧠</span>}
+                     {skillCategory.category === 'Programming Languages' && <Code2 className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-5 h-5 mr-2 text-primary-600" />}
                      {skillCategory.category}
                    </h3>
                    <div className="flex flex-wrap gap-2">
@@ -686,10 +690,11 @@ const Home = ({ isLoading }) => {
                {skills.slice(3).map((skillCategory) => (
                  <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Cloud & Deployment' && <span className="mr-2">☁️</span>}
-                     {skillCategory.category === 'Markup & Styling' && <span className="mr-2">🎨</span>}
-                     {skillCategory.category === 'Database Management' && <span className="mr-2">🗄️</span>}
-                     {skillCategory.category === 'Data Analytics & Visualization' && <span className="mr-2">📊</span>}
+                     {skillCategory.category === 'Version Control' && <GitBranch className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Markup & Styling' && <Palette className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Database Management' && <Database className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-5 h-5 mr-2 text-primary-600" />}
                      {skillCategory.category}
                    </h3>
                    <div className="flex flex-wrap gap-2">
