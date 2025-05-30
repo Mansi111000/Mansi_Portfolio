@@ -345,16 +345,15 @@ const Home = ({ isLoading }) => {
 
   return (
     <div className="min-h-screen bg-gradient-mesh animate-gradient-xy relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent animate-pulse-slow"></div>
-      <div className="absolute inset-0 bg-gradient-conic from-primary-200/20 via-transparent to-accent-200/20 animate-gradient-xy"></div>
+      {/* Simplified background elements - removed overlapping gradients */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
       
-      {/* Floating particles - adjusted opacity to be lighter */}
+      {/* Floating particles - made lighter */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-primary-200/20 rounded-full animate-float"
+            className="absolute w-2 h-2 bg-primary-100/20 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -474,9 +473,7 @@ const Home = ({ isLoading }) => {
 
       {/* About Section Content */}
       <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
-         
+         {/* Removed overlapping background */}
          <div className="max-w-4xl w-full space-y-12">
            {/* About Content */}
            <div className="text-center space-y-6">
@@ -523,67 +520,67 @@ const Home = ({ isLoading }) => {
 
       {/* Projects Section Content */}
       <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
-         
-         {/* Title Section with more space */}
-         <div className="w-full text-center py-12">
-           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
-             Projects
-           </h2>
-         </div>
-
-         {/* Projects Grid Container */}
+         {/* Removed overlapping background */}
          <div className="max-w-6xl w-full space-y-8">
-           {/* Projects Grid */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             {projects.map((project, index) => (
-               <div
-                 key={project.title}
-                 className={`relative block visible opacity-100 bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:scale-105 
-                   ${index % 2 === 0 ? 'border-l-4 border-primary-500' : 'border-r-4 border-accent-500'}
-                 `}
-               >
-                 <div className="relative w-full bg-gray-50 flex items-center justify-center p-4">
-                   <img 
-                     src={project.imageUrl || 'https://via.placeholder.com/600x400?text=Project+Image'} 
-                     alt={`${project.title} preview`}
-                     className="w-auto h-auto max-w-full max-h-[250px] object-contain"
-                     loading="lazy"
-                     decoding="async"
-                     fetchpriority={index < 2 ? "high" : "low"}
-                   />
-                 </div>
-                 
-                 <div className="p-4 sm:p-5 md:p-6 space-y-3">
-                   <div className="min-h-[60px]">
-                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
+           {/* Title Section with more space */}
+           <div className="w-full text-center py-12">
+             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
+               Projects
+             </h2>
+           </div>
+
+           {/* Projects Grid Container */}
+           <div className="max-w-6xl w-full space-y-8">
+             {/* Projects Grid */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               {projects.map((project, index) => (
+                 <div
+                   key={project.title}
+                   className={`relative block visible opacity-100 bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:scale-105 
+                     ${index % 2 === 0 ? 'border-l-4 border-primary-500' : 'border-r-4 border-accent-500'}
+                   `}
+                 >
+                   <div className="relative w-full bg-gray-50 flex items-center justify-center p-4">
+                     <img 
+                       src={project.imageUrl || 'https://via.placeholder.com/600x400?text=Project+Image'} 
+                       alt={`${project.title} preview`}
+                       className="w-auto h-auto max-w-full max-h-[250px] object-contain"
+                       loading="lazy"
+                       decoding="async"
+                       fetchpriority={index < 2 ? "high" : "low"}
+                     />
                    </div>
-                   <p className="text-sm sm:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
-                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                     {project.tech.map((tech) => (
-                       <span
-                         key={tech}
-                         className="bg-primary-100 text-primary-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap"
+                   
+                   <div className="p-4 sm:p-5 md:p-6 space-y-3">
+                     <div className="min-h-[60px]">
+                       <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
+                     </div>
+                     <p className="text-sm sm:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
+                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                       {project.tech.map((tech) => (
+                         <span
+                           key={tech}
+                           className="bg-primary-100 text-primary-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap"
+                         >
+                           {tech}
+                         </span>
+                       ))}
+                     </div>
+                     <div className="flex space-x-4 pt-1">
+                       <a
+                         href={project.github}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="flex items-center space-x-2 text-primary-600 hover:text-primary-800 transition-colors"
                        >
-                         {tech}
-                       </span>
-                     ))}
-                   </div>
-                   <div className="flex space-x-4 pt-1">
-                     <a
-                       href={project.github}
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       className="flex items-center space-x-2 text-primary-600 hover:text-primary-800 transition-colors"
-                     >
-                       <Github size={16} className="text-primary-600 sm:w-5 sm:h-5" />
-                       <span className="text-sm sm:text-base">Code</span>
-                     </a>
+                         <Github size={16} className="text-primary-600 sm:w-5 sm:h-5" />
+                         <span className="text-sm sm:text-base">Code</span>
+                       </a>
+                     </div>
                    </div>
                  </div>
-               </div>
-             ))}
+               ))}
+             </div>
            </div>
          </div>
       </section>
@@ -654,10 +651,8 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Skills Section */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-shine overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
-         
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         {/* Removed overlapping background */}
          <div className="max-w-4xl w-full space-y-8">
            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
