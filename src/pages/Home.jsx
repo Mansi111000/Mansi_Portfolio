@@ -349,12 +349,12 @@ const Home = ({ isLoading }) => {
       <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent animate-pulse-slow"></div>
       <div className="absolute inset-0 bg-gradient-conic from-primary-200/20 via-transparent to-accent-200/20 animate-gradient-xy"></div>
       
-      {/* Floating particles */}
+      {/* Floating particles - adjusted opacity to be lighter */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-primary-300/30 rounded-full animate-float"
+            className="absolute w-2 h-2 bg-primary-200/20 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -369,7 +369,7 @@ const Home = ({ isLoading }) => {
         onNavigate={handleSectionNavigate} 
       />
 
-      {/* Home section content - Removed conditional visibility classes */}
+      {/* Home section content */}
       <main ref={homeRef} className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 transition-all duration-700 ease-out">
         <div className="max-w-4xl w-full space-y-8 animate-fade-in">
           {/* Profile Section */}
@@ -472,10 +472,10 @@ const Home = ({ isLoading }) => {
         </div>
       </main>
 
-      {/* About Section Content - Added ref and conditional classes */}
+      {/* About Section Content */}
       <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
          {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent"></div>
+         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
          
          <div className="max-w-4xl w-full space-y-12">
            {/* About Content */}
@@ -521,17 +521,20 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Projects Section Content - Added ref and conditional classes */}
-      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      {/* Projects Section Content */}
+      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
          {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-100/30 to-transparent"></div>
+         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
          
+         {/* Title Section with more space */}
+         <div className="w-full text-center py-12">
+           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
+             Projects
+           </h2>
+         </div>
+
+         {/* Projects Grid Container */}
          <div className="max-w-6xl w-full space-y-8">
-           <div className="text-center mb-12">
-             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words">
-               Projects
-             </h2>
-           </div>
            {/* Projects Grid */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              {projects.map((project, index) => (
@@ -585,8 +588,8 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Experience Section - Added ref and conditional classes */}
-      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 transition-all duration-700 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      {/* Experience Section */}
+      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh transition-all duration-700 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="max-w-4xl w-full space-y-8 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x pb-2">
             Experience
@@ -650,10 +653,10 @@ const Home = ({ isLoading }) => {
         </div>
       </section>
 
-      {/* Skills Section (NEW) - Added ref and conditional classes */}
+      {/* Skills Section */}
       <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-shine overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
          {/* Simplified background */}
-         <div className="absolute inset-0 bg-gradient-radial from-primary-200/30 to-transparent"></div>
+         <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
          
          <div className="max-w-4xl w-full space-y-8">
            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
@@ -714,8 +717,8 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Contact Section - Added ref and conditional classes */}
-      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 pb-32 transition-all duration-700 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      {/* Contact Section */}
+      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 pb-32 bg-gradient-mesh transition-all duration-700 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         {/* Adjusted main content container for better centering and alignment */}
         <div className="max-w-4xl w-full space-y-8 animate-fade-in text-center"> {/* Added text-center here and kept max-w-4xl for overall width */}
           <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x">
