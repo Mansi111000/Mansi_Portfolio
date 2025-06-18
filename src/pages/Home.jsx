@@ -348,11 +348,11 @@ const Home = ({ isLoading }) => {
   // This component now only renders its content when isLoading is false
 
   return (
-    <div className="min-h-screen bg-gradient-mesh relative overflow-hidden">
-      {/* Simplified background elements - reduced for mobile performance */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary-100/10 to-transparent"></div>
+    <div className="min-h-screen bg-gradient-mesh animate-gradient-xy relative overflow-hidden">
+      {/* Restored original background elements */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
       
-      {/* Reduced floating particles for mobile performance */}
+      {/* Floating particles - optimized for mobile */}
       <div className="absolute inset-0">
         {[...Array(8)].map((_, i) => (
           <div
@@ -362,7 +362,7 @@ const Home = ({ isLoading }) => {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              animationDuration: '4s', // Faster animation for better performance
+              animationDuration: '4s',
             }}
           />
         ))}
@@ -410,7 +410,7 @@ const Home = ({ isLoading }) => {
             {/* Replace social links with Download CV button */}
             <div className="flex justify-center mt-8">
               <a
-                href="https://drive.google.com/file/d/12SSBv18T6qxz24-V_rrQEt6awgJTf7wn/view?usp=drive_link" // Replace with your actual Google Drive link
+                href="https://drive.google.com/file/d/12SSBv18T6qxz24-V_rrQEt6awgJTf7wn/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 font-bold text-white transition-all duration-300 ease-out transform rounded-lg shadow-lg bg-gradient-to-r from-primary-600 to-accent-600 hover:scale-105 hover:shadow-xl active:scale-95"
@@ -648,63 +648,40 @@ const Home = ({ isLoading }) => {
         </div>
       </section>
 
-      {/* Skills Section - optimized for mobile */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      {/* Skills Section - heavily optimized for mobile performance */}
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-300 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
          <div className="max-w-4xl w-full space-y-6 sm:space-y-8">
-           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
+           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 sm:mb-8 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
            </h2>
-           {/* Skills Section - Optimized grid */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-             {/* First column */}
-             <div className="space-y-3 sm:space-y-4 md:space-y-6">
-               {skills.slice(0, 3).map((skillCategory) => (
-                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
-                   <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Programming Languages' && <Code2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category}
-                   </h3>
-                   <div className="flex flex-wrap gap-1 sm:gap-2">
-                     {skillCategory.items.map((skill) => (
-                       <span
-                         key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 py-1 rounded-full text-xs font-medium shadow-md"
-                       >
-                         {skill}
-                       </span>
-                     ))}
-                   </div>
+           
+           {/* Simplified Skills Layout for Mobile */}
+           <div className="space-y-4 sm:space-y-6">
+             {skills.map((skillCategory, index) => (
+               <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg">
+                 <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-primary-700 flex items-center">
+                   {skillCategory.category === 'Programming Languages' && <Code2 className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Version Control' && <GitBranch className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Markup & Styling' && <Palette className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Database Management' && <Database className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-5 h-5 mr-2 text-primary-600" />}
+                   {skillCategory.category}
+                 </h3>
+                 <div className="flex flex-wrap gap-2">
+                   {skillCategory.items.map((skill) => (
+                     <span
+                       key={skill}
+                       className="bg-accent-100 text-accent-800 px-3 py-1 rounded-full text-sm font-medium shadow-sm"
+                     >
+                       {skill}
+                     </span>
+                   ))}
                  </div>
-               ))}
-             </div>
-             
-             {/* Second column */}
-             <div className="space-y-3 sm:space-y-4 md:space-y-6">
-               {skills.slice(3).map((skillCategory) => (
-                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
-                   <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Version Control' && <GitBranch className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Markup & Styling' && <Palette className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Database Management' && <Database className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category}
-                   </h3>
-                   <div className="flex flex-wrap gap-1 sm:gap-2">
-                     {skillCategory.items.map((skill) => (
-                       <span
-                         key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 py-1 rounded-full text-xs font-medium shadow-md"
-                       >
-                         {skill}
-                       </span>
-                     ))}
-                   </div>
-                 </div>
-               ))}
-             </div>
+               </div>
+             ))}
            </div>
          </div>
       </section>

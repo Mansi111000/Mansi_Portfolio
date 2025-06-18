@@ -57,20 +57,20 @@ export default {
         },
       },
       animation: {
-        'gradient-x': 'gradient-x 20s ease infinite',
-        'gradient-y': 'gradient-y 20s ease infinite',
-        'gradient-xy': 'gradient-xy 20s ease infinite',
-        'float': 'float 4s ease-in-out infinite',
-        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-slow': 'bounce 4s infinite',
-        'slide-up': 'slide-up 0.3s ease-out',
-        'slide-down': 'slide-down 0.3s ease-out',
-        'fade-in': 'fade-in 0.3s ease-out',
-        'scale-in': 'scale-in 0.3s ease-out',
-        'rotate-in': 'rotate-in 0.3s ease-out',
-        'background-shift': 'background-shift 20s ease infinite',
-        'morph': 'morph 6s ease-in-out infinite',
-        'shimmer': 'shimmer 3s linear infinite',
+        'gradient-x': 'gradient-x 15s ease infinite',
+        'gradient-y': 'gradient-y 15s ease infinite',
+        'gradient-xy': 'gradient-xy 15s ease infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-slow': 'bounce 3s infinite',
+        'slide-up': 'slide-up 0.5s ease-out',
+        'slide-down': 'slide-down 0.5s ease-out',
+        'fade-in': 'fade-in 0.5s ease-out',
+        'scale-in': 'scale-in 0.5s ease-out',
+        'rotate-in': 'rotate-in 0.5s ease-out',
+        'background-shift': 'background-shift 15s ease infinite',
+        'morph': 'morph 8s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
       },
       keyframes: {
         'gradient-y': {
@@ -108,12 +108,12 @@ export default {
             transform: 'translateY(0)',
           },
           '50%': {
-            transform: 'translateY(-10px)',
+            transform: 'translateY(-20px)',
           },
         },
         'slide-up': {
           '0%': {
-            transform: 'translateY(10px)',
+            transform: 'translateY(20px)',
             opacity: '0',
           },
           '100%': {
@@ -123,7 +123,7 @@ export default {
         },
         'slide-down': {
           '0%': {
-            transform: 'translateY(-10px)',
+            transform: 'translateY(-20px)',
             opacity: '0',
           },
           '100%': {
@@ -141,7 +141,7 @@ export default {
         },
         'scale-in': {
           '0%': {
-            transform: 'scale(0.95)',
+            transform: 'scale(0.9)',
             opacity: '0',
           },
           '100%': {
@@ -151,7 +151,7 @@ export default {
         },
         'rotate-in': {
           '0%': {
-            transform: 'rotate(-5deg) scale(0.95)',
+            transform: 'rotate(-10deg) scale(0.9)',
             opacity: '0',
           },
           '100%': {
