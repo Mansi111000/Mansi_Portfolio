@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Github, Linkedin, Mail, ChevronDown, BookOpen, Award, ExternalLink, User, Code2, Library, Brain, Cloud, Palette, Database, BarChart3, GitBranch, Layers } from 'lucide-react';
 import SectionNavigation from '../components/SectionNavigation';
 
@@ -27,7 +27,21 @@ const Home = ({ isLoading }) => {
     contact: contactRef,
   };
 
-  // Intersection Observer for scroll animations
+  // Throttle function for better performance
+  const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
+  };
+
+  // Intersection Observer for scroll animations - optimized for mobile
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -38,7 +52,10 @@ const Home = ({ isLoading }) => {
           }));
         });
       },
-      { threshold: 0.2 } // Trigger when 20% of the element is visible
+      { 
+        threshold: 0.1, // Reduced threshold for better mobile performance
+        rootMargin: '0px 0px -10% 0px' // Trigger earlier
+      }
     );
 
     // Observe each section
@@ -61,7 +78,7 @@ const Home = ({ isLoading }) => {
   // Set the full text to be typed with correct newlines and formatting
   const fullText = 'print("Hello world 👋, I\'m **Mansi Thakkar** 👩‍💻")\n{\n   //On an Exciting Path Towards AI & ML🚀\n}';
 
-  // Typing animation effect
+  // Typing animation effect - optimized for mobile
   useEffect(() => {
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
@@ -71,7 +88,7 @@ const Home = ({ isLoading }) => {
       } else {
         clearInterval(typingInterval);
       }
-    }, 50); // Adjusted typing speed
+    }, 80); // Slightly slower for better mobile performance
 
     return () => {
       clearInterval(typingInterval);
@@ -205,7 +222,7 @@ const Home = ({ isLoading }) => {
     }
   ];
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = useCallback((sectionId) => {
     return new Promise((resolve) => {
       const section = document.getElementById(sectionId);
       if (section) {
@@ -217,31 +234,17 @@ const Home = ({ isLoading }) => {
           behavior: 'smooth'
         });
 
-        // Wait for scroll to complete
-        const checkScroll = () => {
-          const currentScroll = window.scrollY;
-          const targetPosition = sectionId === 'home' ? 0 : section.offsetTop - navbarHeight;
-          
-          if (Math.abs(currentScroll - targetPosition) < 5) {
-            window.removeEventListener('scroll', checkScroll);
-            resolve();
-          }
-        };
-
-        window.addEventListener('scroll', checkScroll);
-        
-        // Fallback timeout
+        // Simplified scroll completion check
         setTimeout(() => {
-          window.removeEventListener('scroll', checkScroll);
           resolve();
-        }, 1000);
+        }, 800);
       } else {
         resolve();
       }
     });
-  };
+  }, []);
 
-  const handleSectionNavigate = async (sectionId) => {
+  const handleSectionNavigate = useCallback(async (sectionId) => {
     // Temporarily disable section updates
     const sections = ['home', 'about', 'projects', 'experience', 'skills', 'contact'];
     sections.forEach(id => {
@@ -264,12 +267,13 @@ const Home = ({ isLoading }) => {
         element.style.pointerEvents = 'auto';
       }
     });
-  };
+  }, [scrollToSection]);
 
+  // Optimized scroll handler with throttling
   useEffect(() => {
     const sections = ['home', 'about', 'projects', 'experience', 'skills', 'contact'];
     
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       const scrollPosition = window.scrollY;
       
       // Only update if we're not in the middle of a navigation
@@ -293,9 +297,9 @@ const Home = ({ isLoading }) => {
           }
         }
       }
-    };
+    }, 100); // Throttle to 100ms
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -344,20 +348,21 @@ const Home = ({ isLoading }) => {
   // This component now only renders its content when isLoading is false
 
   return (
-    <div className="min-h-screen bg-gradient-mesh animate-gradient-xy relative overflow-hidden">
-      {/* Simplified background elements - removed overlapping gradients */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary-100/20 to-transparent"></div>
+    <div className="min-h-screen bg-gradient-mesh relative overflow-hidden">
+      {/* Simplified background elements - reduced for mobile performance */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary-100/10 to-transparent"></div>
       
-      {/* Floating particles - made lighter */}
+      {/* Reduced floating particles for mobile performance */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-primary-100/20 rounded-full animate-float"
+            className="absolute w-1 h-1 bg-primary-100/15 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: '4s', // Faster animation for better performance
             }}
           />
         ))}
@@ -369,18 +374,19 @@ const Home = ({ isLoading }) => {
       />
 
       {/* Home section content */}
-      <main ref={homeRef} className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 transition-all duration-700 ease-out">
-        <div className="max-w-4xl w-full space-y-8 animate-fade-in">
+      <main ref={homeRef} className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 transition-all duration-500 ease-out">
+        <div className="max-w-4xl w-full space-y-8">
           {/* Profile Section */}
-          <div className="text-center space-y-6 animate-slide-up">
+          <div className="text-center space-y-6">
             {/* Profile image code */}
-            <div className="relative w-56 h-56 mx-auto mb-8">
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full animate-morph"></div>
               <div className="absolute inset-0 rounded-full overflow-hidden">
                 <img
                   src="/images/profile.png"
                   alt="Mansi Thakkar"
                   className="w-full h-full object-cover"
+                  loading="eager"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = 'https://via.placeholder.com/400x400?text=MT';
@@ -390,8 +396,8 @@ const Home = ({ isLoading }) => {
               <div className="absolute inset-0 rounded-full border-4 border-white shadow-lg"></div>
             </div>
 
-            {/* Animated Code Snippet Editor */}
-            <div className="w-full px-2 sm:px-4 max-w-3xl mx-auto mt-8 p-3 sm:p-6 bg-gray-800 rounded-lg shadow-2xl text-left font-mono text-sm sm:text-xl md:text-2xl overflow-x-auto">
+            {/* Animated Code Snippet Editor - optimized for mobile */}
+            <div className="w-full px-2 sm:px-4 max-w-3xl mx-auto mt-8 p-3 sm:p-6 bg-gray-800 rounded-lg shadow-2xl text-left font-mono text-xs sm:text-sm md:text-xl lg:text-2xl overflow-x-auto">
               <pre className="whitespace-pre-wrap break-words">
                 <code className="block overflow-x-auto">
                   {/* Render the typing text with improved syntax highlighting */}
@@ -407,13 +413,13 @@ const Home = ({ isLoading }) => {
                 href="https://drive.google.com/file/d/12SSBv18T6qxz24-V_rrQEt6awgJTf7wn/view?usp=drive_link" // Replace with your actual Google Drive link
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 ease-out transform rounded-lg shadow-lg bg-gradient-to-r from-primary-600 to-accent-600 hover:scale-105 hover:shadow-xl active:scale-95"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 font-bold text-white transition-all duration-300 ease-out transform rounded-lg shadow-lg bg-gradient-to-r from-primary-600 to-accent-600 hover:scale-105 hover:shadow-xl active:scale-95"
               >
                 <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-x-1 translate-y-1 bg-gradient-to-r from-primary-700 to-accent-700 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary-600 to-accent-600 border-2 border-white rounded-lg group-hover:bg-gradient-to-r group-hover:from-primary-700 group-hover:to-accent-700"></span>
                 <span className="relative flex items-center space-x-2">
                   <svg 
-                    className="w-5 h-5" 
+                    className="w-4 h-4 sm:w-5 sm:h-5" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -431,14 +437,14 @@ const Home = ({ isLoading }) => {
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                     />
                   </svg>
-                  <span>View My CV</span>
+                  <span className="text-sm sm:text-base">View My CV</span>
                 </span>
               </a>
             </div>
           </div>
 
-          {/* Skills Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          {/* Skills Preview - optimized for mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
             {[
               {
                 title: "Programming",
@@ -458,29 +464,28 @@ const Home = ({ isLoading }) => {
             ].map((skill, index) => (
               <div
                 key={skill.title}
-                className="group relative bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-scale-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className="group relative bg-white/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
                      style={{ backgroundImage: `linear-gradient(to right, ${skill.color})` }}></div>
-                <h3 className="text-xl font-semibold text-primary-700 mb-2">{skill.title}</h3>
-                <p className="text-secondary-600">{skill.description}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-primary-700 mb-2">{skill.title}</h3>
+                <p className="text-sm sm:text-base text-secondary-600">{skill.description}</p>
               </div>
             ))}
           </div>
         </div>
       </main>
 
-      {/* About Section Content */}
-      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Removed overlapping background */}
-         <div className="max-w-4xl w-full space-y-12">
+      {/* About Section Content - optimized for mobile */}
+      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         <div className="max-w-4xl w-full space-y-8 sm:space-y-12">
            {/* About Content */}
-           <div className="text-center space-y-6">
-             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+           <div className="text-center space-y-4 sm:space-y-6">
+             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                About Me
              </h2>
-             <div className="text-lg md:text-xl text-secondary-600 max-w-2xl mx-auto leading-relaxed">
+             <div className="text-base sm:text-lg md:text-xl text-secondary-600 max-w-2xl mx-auto leading-relaxed">
                <p>
                  I'm a B.Tech Computer Science student at Nirma University, passionate about Artificial Intelligence and Machine Learning.  
                  I enjoy exploring how data and algorithms can solve real-world problems in smart, innovative ways.  
@@ -493,24 +498,23 @@ const Home = ({ isLoading }) => {
 
            {/* Education Section */}
            <div className="w-full">
-             <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+             <h3 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
                Educational Background
              </h3>
-             {/* Adjusted grid for exactly two items */}
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                {education.map((edu, index) => (
                  <div
                    key={index}
-                   className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                   className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                  >
                    <div className="flex items-center mb-3">
-                     <h4 className="text-xl font-semibold text-primary-700 flex items-center">
+                     <h4 className="text-lg sm:text-xl font-semibold text-primary-700 flex items-center">
                        {edu.degree} {index === 0 ? '🎓' : '📜'}
                      </h4>
                    </div>
-                   <p className="text-lg text-secondary-600 mb-2 font-bold">{edu.institution}</p>
-                   <p className="text-base text-secondary-600 font-medium mb-3">{edu.period}</p>
-                   {edu.description && <p className="text-secondary-700 text-sm leading-relaxed">{edu.description}</p>}
+                   <p className="text-base sm:text-lg text-secondary-600 mb-2 font-bold">{edu.institution}</p>
+                   <p className="text-sm sm:text-base text-secondary-600 font-medium mb-3">{edu.period}</p>
+                   {edu.description && <p className="text-secondary-700 text-xs sm:text-sm leading-relaxed">{edu.description}</p>}
                  </div>
                ))}
              </div>
@@ -518,21 +522,20 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Projects Section Content */}
-      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-20 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Removed overlapping background */}
-         <div className="max-w-6xl w-full space-y-8">
-           {/* Title Section with more space */}
-           <div className="w-full text-center py-12">
-             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
+      {/* Projects Section Content - optimized for mobile */}
+      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-16 sm:py-20 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         <div className="max-w-6xl w-full space-y-6 sm:space-y-8">
+           {/* Title Section */}
+           <div className="w-full text-center py-8 sm:py-12">
+             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
                Projects
              </h2>
            </div>
 
            {/* Projects Grid Container */}
-           <div className="max-w-6xl w-full space-y-8">
+           <div className="max-w-6xl w-full space-y-6 sm:space-y-8">
              {/* Projects Grid */}
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                {projects.map((project, index) => (
                  <div
                    key={project.title}
@@ -540,27 +543,27 @@ const Home = ({ isLoading }) => {
                      ${index % 2 === 0 ? 'border-l-4 border-primary-500' : 'border-r-4 border-accent-500'}
                    `}
                  >
-                   <div className="relative w-full bg-gray-50 flex items-center justify-center p-4">
+                   <div className="relative w-full bg-gray-50 flex items-center justify-center p-3 sm:p-4">
                      <img 
                        src={project.imageUrl || 'https://via.placeholder.com/600x400?text=Project+Image'} 
                        alt={`${project.title} preview`}
-                       className="w-auto h-auto max-w-full max-h-[250px] object-contain"
+                       className="w-auto h-auto max-w-full max-h-[200px] sm:max-h-[250px] object-contain"
                        loading="lazy"
                        decoding="async"
                        fetchpriority={index < 2 ? "high" : "low"}
                      />
                    </div>
                    
-                   <div className="p-4 sm:p-5 md:p-6 space-y-3">
-                     <div className="min-h-[60px]">
-                       <h3 className="text-base sm:text-lg md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
+                   <div className="p-3 sm:p-4 md:p-6 space-y-2 sm:space-y-3">
+                     <div className="min-h-[50px] sm:min-h-[60px]">
+                       <h3 className="text-sm sm:text-base md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
                      </div>
-                     <p className="text-sm sm:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
-                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                     <p className="text-xs sm:text-sm md:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
+                     <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
                        {project.tech.map((tech) => (
                          <span
                            key={tech}
-                           className="bg-primary-100 text-primary-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap"
+                           className="bg-primary-100 text-primary-700 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap"
                          >
                            {tech}
                          </span>
@@ -573,8 +576,8 @@ const Home = ({ isLoading }) => {
                          rel="noopener noreferrer"
                          className="flex items-center space-x-2 text-primary-600 hover:text-primary-800 transition-colors"
                        >
-                         <Github size={16} className="text-primary-600 sm:w-5 sm:h-5" />
-                         <span className="text-sm sm:text-base">Code</span>
+                         <Github size={16} className="text-primary-600" />
+                         <span className="text-xs sm:text-sm md:text-base">Code</span>
                        </a>
                      </div>
                    </div>
@@ -585,10 +588,10 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Experience Section */}
-      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-mesh transition-all duration-700 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="max-w-4xl w-full space-y-8 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x pb-2">
+      {/* Experience Section - optimized for mobile */}
+      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 bg-gradient-mesh transition-all duration-500 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="max-w-4xl w-full space-y-6 sm:space-y-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent pb-2">
             Experience
           </h2>
           {/* Experience Timeline */}
@@ -596,43 +599,38 @@ const Home = ({ isLoading }) => {
             {/* Vertical line */}
             <div className="absolute left-1/2 transform -translate-x-px h-full w-1 bg-gradient-to-b from-primary-400 via-accent-400 to-primary-400 hidden md:block z-10"></div>
             {timeline.filter(item => item.type === 'experience' || item.type === 'Internship').map((item, index) => (
-              <div key={index} className={`relative flex items-center ${index === 0 ? 'mb-12' : 'mb-12'} 
+              <div key={index} className={`relative flex items-center ${index === 0 ? 'mb-8 sm:mb-12' : 'mb-8 sm:mb-12'} 
                 ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} 
-                ${index === 0 ? 'animate-slide-up' : index % 2 === 1 ? 'animate-slide-down' : 'animate-fade-in'}
               `}>
                 {/* Timeline dot - Hidden on mobile */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 z-20 hidden md:block">
-                  {/* Increased dot size slightly for better visual connection */}
                   <div className="w-6 h-6 bg-gradient-to-r from-primary-600 to-accent-600 rounded-full border-4 border-white shadow-lg"></div>
                 </div>
 
-                {/* Horizontal connecting lines (Restored and adjusted) */}
-                {/* Line for left card: Connects from right edge of dot to left edge of card content */}
+                {/* Horizontal connecting lines */}
                 {index % 2 === 0 && (
                   <div className="hidden md:block absolute left-[calc(50% + 12px)] top-1/2 w-[60px] h-0.5 bg-gradient-to-r from-primary-400 to-accent-400 transform -translate-y-1/2 z-10"></div>
                 )}
-                {/* Line for right card: Connects from left edge of dot to right edge of card content */}
                 {index % 2 === 1 && (
                   <div className="hidden md:block absolute right-[calc(50% + 12px)] top-1/2 w-[60px] h-0.5 bg-gradient-to-l from-primary-400 to-accent-400 transform -translate-y-1/2 z-10"></div>
                 )}
 
                 {/* Card Container */}
-                {/* Adjusted padding to align with horizontal lines */}
                 <div className={`w-full md:w-6/12 z-10 ${index % 2 === 0 ? 'md:pr-[6px]' : 'md:pl-[6px]'}`}>
-                  <div className="bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                     <div className="flex items-center mb-2">
                       {item.logoUrl && (
                         <img 
                           src={item.logoUrl} 
                           alt={`${item.organization} logo`} 
-                          className="w-10 h-10 sm:w-12 sm:h-12 object-contain mr-3"
+                          className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mr-2 sm:mr-3"
                         />
                       )}
-                      {index !== 0 && item.type === 'experience' && <User className="w-5 h-5 text-accent-600 mr-2" />}
-                      <span className="text-sm sm:text-base text-secondary-600 font-bold">{item.period}</span>
+                      {index !== 0 && item.type === 'experience' && <User className="w-4 h-4 sm:w-5 sm:h-5 text-accent-600 mr-2" />}
+                      <span className="text-xs sm:text-sm md:text-base text-secondary-600 font-bold">{item.period}</span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold mb-1 text-primary-700">{item.title}</h3>
-                    <p className="text-base sm:text-lg text-secondary-600 font-bold mb-2">{item.organization}</p>
+                    <h3 className="text-sm sm:text-base md:text-lg font-bold mb-1 text-primary-700">{item.title}</h3>
+                    <p className="text-sm sm:text-base md:text-lg text-secondary-600 font-bold mb-2">{item.organization}</p>
                     {Array.isArray(item.description) ? (
                       <ul className="text-xs sm:text-sm text-secondary-600 list-disc pl-4 space-y-1">
                         {item.description.map((point, pointIndex) => (
@@ -650,30 +648,29 @@ const Home = ({ isLoading }) => {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-16 bg-gradient-mesh overflow-hidden transition-all duration-700 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         {/* Removed overlapping background */}
-         <div className="max-w-4xl w-full space-y-8">
-           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
+      {/* Skills Section - optimized for mobile */}
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+         <div className="max-w-4xl w-full space-y-6 sm:space-y-8">
+           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
            </h2>
            {/* Skills Section - Optimized grid */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
              {/* First column */}
-             <div className="space-y-4 sm:space-y-6">
+             <div className="space-y-3 sm:space-y-4 md:space-y-6">
                {skills.slice(0, 3).map((skillCategory) => (
                  <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
-                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Programming Languages' && <Code2 className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-5 h-5 mr-2 text-primary-600" />}
+                   <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
+                     {skillCategory.category === 'Programming Languages' && <Code2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
                      {skillCategory.category}
                    </h3>
-                   <div className="flex flex-wrap gap-2">
+                   <div className="flex flex-wrap gap-1 sm:gap-2">
                      {skillCategory.items.map((skill) => (
                        <span
                          key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md"
+                         className="bg-accent-100 text-accent-800 px-2 py-1 rounded-full text-xs font-medium shadow-md"
                        >
                          {skill}
                        </span>
@@ -684,22 +681,22 @@ const Home = ({ isLoading }) => {
              </div>
              
              {/* Second column */}
-             <div className="space-y-4 sm:space-y-6">
+             <div className="space-y-3 sm:space-y-4 md:space-y-6">
                {skills.slice(3).map((skillCategory) => (
                  <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
-                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
-                     {skillCategory.category === 'Version Control' && <GitBranch className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Markup & Styling' && <Palette className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Database Management' && <Database className="w-5 h-5 mr-2 text-primary-600" />}
-                     {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-5 h-5 mr-2 text-primary-600" />}
+                   <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
+                     {skillCategory.category === 'Version Control' && <GitBranch className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Markup & Styling' && <Palette className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Database Management' && <Database className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" />}
                      {skillCategory.category}
                    </h3>
-                   <div className="flex flex-wrap gap-2">
+                   <div className="flex flex-wrap gap-1 sm:gap-2">
                      {skillCategory.items.map((skill) => (
                        <span
                          key={skill}
-                         className="bg-accent-100 text-accent-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-md"
+                         className="bg-accent-100 text-accent-800 px-2 py-1 rounded-full text-xs font-medium shadow-md"
                        >
                          {skill}
                        </span>
@@ -712,32 +709,30 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Contact Section */}
-      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-20 pb-32 bg-gradient-mesh transition-all duration-700 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        {/* Adjusted main content container for better centering and alignment */}
-        <div className="max-w-4xl w-full space-y-8 animate-fade-in text-center"> {/* Added text-center here and kept max-w-4xl for overall width */}
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent animate-gradient-x">
+      {/* Contact Section - optimized for mobile */}
+      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 pb-24 sm:pb-32 bg-gradient-mesh transition-all duration-500 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="max-w-4xl w-full space-y-6 sm:space-y-8 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Get in Touch
           </h2>
         
-          {/* Display contact information within a centered max-w-md block for tighter grouping */}
-          <div className="max-w-md mx-auto space-y-8"> {/* Kept max-w-md mx-auto for centering this block, removed animate-fade-in as it's on the parent */}
+          <div className="max-w-md mx-auto space-y-6 sm:space-y-8">
              <div>
-               <h3 className="text-2xl font-bold mb-6 text-primary-700">Contact Information</h3> {/* Removed text-center, parent div will handle */}
-               <p className="text-secondary-600 mb-6"> {/* Removed text-center, parent div will handle */}
+               <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary-700">Contact Information</h3>
+               <p className="text-sm sm:text-base text-secondary-600 mb-4 sm:mb-6">
                  Feel free to reach out to me for any opportunities or collaborations. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                </p>
              </div>
 
-             <div className="space-y-4"> {/* Removed text-center, flex classes handle centering children */}
+             <div className="space-y-3 sm:space-y-4">
                <a
                  href="mailto:mansithakkar1123@gmail.com"
                  target="_blank"
                  rel="noopener noreferrer"
                  className="flex items-center justify-center space-x-3 text-primary-600 hover:text-primary-800 transition-colors"
                >
-                 <Mail className="w-6 h-6" />
-                 <span>mansithakkar1123@gmail.com</span>
+                 <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
+                 <span className="text-sm sm:text-base">mansithakkar1123@gmail.com</span>
                </a>
                <a
                   href="https://github.com/Mansi111000"
@@ -745,8 +740,8 @@ const Home = ({ isLoading }) => {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center space-x-3 text-primary-600 hover:text-primary-800 transition-colors"
                 >
-                  <Github className="w-6 h-6" />
-                  <span>github.com/Mansi111000</span>
+                  <Github className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <span className="text-sm sm:text-base">github.com/Mansi111000</span>
                 </a>
                 <a
                   href="https://linkedin.com/in/mansi-thakkar11"
@@ -754,15 +749,15 @@ const Home = ({ isLoading }) => {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center space-x-3 text-primary-600 hover:text-primary-800 transition-colors"
                 >
-                  <Linkedin className="w-6 h-6" />
-                  <span>linkedin.com/in/mansi-thakkar11</span>
+                  <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <span className="text-sm sm:text-base">linkedin.com/in/mansi-thakkar11</span>
                 </a>
              </div>
 
-             <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg">
-               <h4 className="text-lg font-semibold mb-2 text-primary-700 text-center">Location</h4> {/* Kept text-center for heading */}
-               <p className="text-secondary-600 text-center">Ahmedabad, India</p> {/* Added text-center */}
-               <p className="text-secondary-600 text-sm mt-1 text-center">Available for remote and on-site work</p> {/* Added text-center */}
+             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg">
+               <h4 className="text-base sm:text-lg font-semibold mb-2 text-primary-700 text-center">Location</h4>
+               <p className="text-sm sm:text-base text-secondary-600 text-center">Ahmedabad, India</p>
+               <p className="text-xs sm:text-sm text-secondary-600 mt-1 text-center">Available for remote and on-site work</p>
              </div>
            </div>
 

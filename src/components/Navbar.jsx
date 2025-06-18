@@ -6,22 +6,23 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  // Debounce function
-  const debounce = (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
+  // Throttle function for better performance
+  const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
   };
 
-  // Memoized scroll handler
+  // Memoized scroll handler with throttling
   const handleScroll = useCallback(
-    debounce(() => {
+    throttle(() => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 20);
       
@@ -45,7 +46,7 @@ const Navbar = () => {
       if (currentSection) {
         setActiveSection(currentSection);
       }
-    }, 100),
+    }, 150), // Increased throttle time for better mobile performance
     []
   );
 
@@ -63,7 +64,7 @@ const Navbar = () => {
     { id: 'contact', label: 'Contact' },
   ];
 
-  const handleSectionNavigate = (sectionId) => {
+  const handleSectionNavigate = useCallback((sectionId) => {
     if (sectionId === 'home') {
       // Special handling for home section with improved scroll behavior
       window.scrollTo({
@@ -90,21 +91,22 @@ const Navbar = () => {
       }
     }
     setIsMobileMenuOpen(false);
-  };
+  }, []);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-lg transition-all duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Logo and Navigation Links */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 sm:space-x-8">
             {/* Logo */}
             <div className="flex items-center">
               <div className="bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
                 <img
                   src="/images/M.png"
                   alt="Mansi Thakkar"
-                  className="h-12 w-12 object-contain hover:scale-110 transition-transform duration-300"
+                  className="h-10 w-10 sm:h-12 sm:w-12 object-contain hover:scale-110 transition-transform duration-300"
+                  loading="eager"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = 'https://via.placeholder.com/48x48?text=MT';
@@ -122,8 +124,6 @@ const Navbar = () => {
                   className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 hover:text-primary-600 ${
                     activeSection === link.id ? 'text-primary-600' : 'text-secondary-600'
                   }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   {link.label}
                   {activeSection === link.id && (
@@ -135,7 +135,7 @@ const Navbar = () => {
           </div>
 
           {/* Right side - Mobile menu button and social links */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Social Links - Desktop */}
             <div className="hidden md:flex items-center space-x-4">
               <a
@@ -162,9 +162,9 @@ const Navbar = () => {
               className="md:hidden p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 hover:scale-110 hover:shadow-lg"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6 text-primary-600" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
               ) : (
-                <Menu className="w-6 h-6 text-primary-600" />
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
               )}
             </button>
           </div>
@@ -179,13 +179,11 @@ const Navbar = () => {
               <button
                 key={link.id}
                 onClick={() => handleSectionNavigate(link.id)}
-                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
+                className={`block w-full text-left px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-all duration-300 ${
                   activeSection === link.id
                     ? 'bg-primary-50 text-primary-600'
                     : 'text-secondary-600 hover:bg-primary-50 hover:text-primary-600'
                 }`}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 {link.label}
               </button>

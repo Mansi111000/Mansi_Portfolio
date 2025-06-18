@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import { handleReducedMotion, lazyLoadImages } from './utils/performance';
 // import About from './pages/About'; // Removed
 // import Projects from './pages/Projects'; // Removed
 // import Experience from './pages/Experience'; // Removed
@@ -12,9 +13,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Handle reduced motion preferences
+    handleReducedMotion();
+    
+    // Initialize lazy loading
+    lazyLoadImages();
+    
     const appLoadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500); // Increased timeout slightly to ensure animation plays
+    }, 2000); // Reduced timeout for better mobile experience
 
     return () => clearTimeout(appLoadingTimer);
   }, []);
@@ -23,7 +30,7 @@ function App() {
     <Router>
       <div className="relative min-h-screen bg-gray-900 text-white">
         {isLoading && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gradient-mesh animate-gradient-xy z-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-gradient-mesh z-50">
             <div className="text-center px-4">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.3em] sm:tracking-[0.5em] text-primary-600">
                 <span className="inline-block animate-float" style={{ animationDelay: '0s' }}>M</span>
@@ -54,7 +61,7 @@ function App() {
             {/* <Route path="/contact" element={<Contact />} /> */}
           </Routes>
         )}
-        <Footer isLoading={isLoading} />
+        {!isLoading && <Footer />}
       </div>
     </Router>
   );
