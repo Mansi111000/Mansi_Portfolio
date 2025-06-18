@@ -201,10 +201,6 @@ const Home = ({ isLoading }) => {
         "Embedding-Based Clustering & Classification", "Web Integration with AI Models", "Object-Oriented Programming in AI Systems", "Spacy", "Sentence-BERT", "Transformers (BERT)", "NLP", "GeminiLLM"]
     },
     {
-      category: "Version Control",
-      items: ["Git", "GitHub"]
-    },
-    {
       category: "Cloud & Deployment",
       items: ["AWS EC2", "AWS S3", "AWS Sagemaker", "Vercel"]
     },
@@ -219,6 +215,10 @@ const Home = ({ isLoading }) => {
     {
       category: "Data Analytics & Visualization",
       items: ["Tableau","Data Visualization"]
+    },
+    {
+      category: "Version Control",
+      items: ["Git", "GitHub"]
     }
   ];
 
@@ -522,41 +522,41 @@ const Home = ({ isLoading }) => {
          </div>
       </section>
 
-      {/* Projects Section Content - optimized for mobile */}
-      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-16 sm:py-20 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-         <div className="max-w-6xl w-full space-y-6 sm:space-y-8">
+      {/* Projects Section Content - heavily optimized for mobile */}
+      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-200 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+         <div className="max-w-6xl w-full space-y-4 sm:space-y-6">
            {/* Title Section */}
-           <div className="w-full text-center py-8 sm:py-12">
+           <div className="w-full text-center py-4 sm:py-6">
              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent break-words leading-relaxed pb-4">
                Projects
              </h2>
            </div>
 
-           {/* Projects Grid Container */}
-           <div className="max-w-6xl w-full space-y-6 sm:space-y-8">
-             {/* Projects Grid */}
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+           {/* Projects Grid Container - simplified */}
+           <div className="max-w-6xl w-full">
+             {/* Projects Grid - optimized for mobile */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                {projects.map((project, index) => (
                  <div
                    key={project.title}
-                   className={`relative block visible opacity-100 bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:scale-105 
+                   className={`relative block bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 
                      ${index % 2 === 0 ? 'border-l-4 border-primary-500' : 'border-r-4 border-accent-500'}
                    `}
                  >
-                   <div className="relative w-full bg-gray-50 flex items-center justify-center p-3 sm:p-4">
+                   <div className="relative w-full bg-gray-50 flex items-center justify-center p-2 sm:p-3">
                      <img 
                        src={project.imageUrl || 'https://via.placeholder.com/600x400?text=Project+Image'} 
                        alt={`${project.title} preview`}
-                       className="w-auto h-auto max-w-full max-h-[200px] sm:max-h-[250px] object-contain"
+                       className="w-auto h-auto max-w-full max-h-[150px] sm:max-h-[180px] object-contain"
                        loading="lazy"
                        decoding="async"
                        fetchpriority={index < 2 ? "high" : "low"}
                      />
                    </div>
                    
-                   <div className="p-3 sm:p-4 md:p-6 space-y-2 sm:space-y-3">
-                     <div className="min-h-[50px] sm:min-h-[60px]">
-                       <h3 className="text-sm sm:text-base md:text-xl font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
+                   <div className="p-3 sm:p-4 md:p-5 space-y-2 sm:space-y-3">
+                     <div className="min-h-[35px] sm:min-h-[40px]">
+                       <h3 className="text-sm sm:text-base md:text-lg font-bold text-primary-700 break-words whitespace-normal leading-tight">{project.title}</h3>
                      </div>
                      <p className="text-xs sm:text-sm md:text-base text-secondary-600 line-clamp-3 sm:line-clamp-4 md:line-clamp-none">{project.description}</p>
                      <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
@@ -589,9 +589,9 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Experience Section - optimized for mobile */}
-      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 bg-gradient-mesh transition-all duration-500 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="max-w-4xl w-full space-y-6 sm:space-y-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent pb-2">
+      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh transition-all duration-200 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+        <div className="max-w-4xl w-full space-y-4 sm:space-y-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent pb-2">
             Experience
           </h2>
           {/* Experience Timeline */}
@@ -599,7 +599,7 @@ const Home = ({ isLoading }) => {
             {/* Vertical line */}
             <div className="absolute left-1/2 transform -translate-x-px h-full w-1 bg-gradient-to-b from-primary-400 via-accent-400 to-primary-400 hidden md:block z-10"></div>
             {timeline.filter(item => item.type === 'experience' || item.type === 'Internship').map((item, index) => (
-              <div key={index} className={`relative flex items-center ${index === 0 ? 'mb-8 sm:mb-12' : 'mb-8 sm:mb-12'} 
+              <div key={index} className={`relative flex items-center ${index === 0 ? 'mb-4 sm:mb-6' : 'mb-4 sm:mb-6'} 
                 ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} 
               `}>
                 {/* Timeline dot - Hidden on mobile */}
@@ -617,7 +617,7 @@ const Home = ({ isLoading }) => {
 
                 {/* Card Container */}
                 <div className={`w-full md:w-6/12 z-10 ${index % 2 === 0 ? 'md:pr-[6px]' : 'md:pl-[6px]'}`}>
-                  <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
                     <div className="flex items-center mb-2">
                       {item.logoUrl && (
                         <img 
@@ -649,59 +649,83 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Skills Section - heavily optimized for mobile performance */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-300 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-         <div className="max-w-4xl w-full space-y-6 sm:space-y-8">
-           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 sm:mb-8 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-200 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+         <div className="max-w-4xl w-full space-y-4 sm:space-y-6">
+           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
            </h2>
            
-           {/* Simplified Skills Layout for Mobile */}
-           <div className="space-y-4 sm:space-y-6">
-             {skills.map((skillCategory, index) => (
-               <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg">
-                 <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-primary-700 flex items-center">
-                   {skillCategory.category === 'Programming Languages' && <Code2 className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Version Control' && <GitBranch className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Markup & Styling' && <Palette className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Database Management' && <Database className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-5 h-5 mr-2 text-primary-600" />}
-                   {skillCategory.category}
-                 </h3>
-                 <div className="flex flex-wrap gap-2">
-                   {skillCategory.items.map((skill) => (
-                     <span
-                       key={skill}
-                       className="bg-accent-100 text-accent-800 px-3 py-1 rounded-full text-sm font-medium shadow-sm"
-                     >
-                       {skill}
-                     </span>
-                   ))}
+           {/* Skills Layout - 2 columns on web, 1 column on mobile */}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+             {/* First column */}
+             <div className="space-y-3 sm:space-y-4 md:space-y-6">
+               {skills.slice(0, 3).map((skillCategory) => (
+                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
+                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
+                     {skillCategory.category === 'Programming Languages' && <Code2 className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Frameworks & Libraries' && <Layers className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Machine Learning & AI' && <Brain className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category}
+                   </h3>
+                   <div className="flex flex-wrap gap-2">
+                     {skillCategory.items.map((skill) => (
+                       <span
+                         key={skill}
+                         className="bg-accent-100 text-accent-800 px-3 py-1 rounded-full text-sm font-medium shadow-sm"
+                       >
+                         {skill}
+                       </span>
+                     ))}
+                   </div>
                  </div>
-               </div>
-             ))}
+               ))}
+             </div>
+             
+             {/* Second column */}
+             <div className="space-y-3 sm:space-y-4 md:space-y-6">
+               {skills.slice(3).map((skillCategory) => (
+                 <div key={skillCategory.category} className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
+                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary-700 flex items-center">
+                     {skillCategory.category === 'Markup & Styling' && <Palette className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Database Management' && <Database className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Data Analytics & Visualization' && <BarChart3 className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Version Control' && <GitBranch className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category === 'Cloud & Deployment' && <Cloud className="w-5 h-5 mr-2 text-primary-600" />}
+                     {skillCategory.category}
+                   </h3>
+                   <div className="flex flex-wrap gap-2">
+                     {skillCategory.items.map((skill) => (
+                       <span
+                         key={skill}
+                         className="bg-accent-100 text-accent-800 px-3 py-1 rounded-full text-sm font-medium shadow-sm"
+                       >
+                         {skill}
+                       </span>
+                     ))}
+                   </div>
+                 </div>
+               ))}
+             </div>
            </div>
          </div>
       </section>
 
-      {/* Contact Section - optimized for mobile */}
-      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 pb-24 sm:pb-32 bg-gradient-mesh transition-all duration-500 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="max-w-4xl w-full space-y-6 sm:space-y-8 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+      {/* Contact Section - heavily optimized for mobile */}
+      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 pb-16 sm:pb-20 bg-gradient-mesh transition-all duration-200 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+        <div className="max-w-4xl w-full space-y-4 sm:space-y-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Get in Touch
           </h2>
         
-          <div className="max-w-md mx-auto space-y-6 sm:space-y-8">
+          <div className="max-w-md mx-auto space-y-4 sm:space-y-6">
              <div>
-               <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary-700">Contact Information</h3>
-               <p className="text-sm sm:text-base text-secondary-600 mb-4 sm:mb-6">
+               <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary-700">Contact Information</h3>
+               <p className="text-sm sm:text-base text-secondary-600 mb-3 sm:mb-4">
                  Feel free to reach out to me for any opportunities or collaborations. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                </p>
              </div>
 
-             <div className="space-y-3 sm:space-y-4">
+             <div className="space-y-2 sm:space-y-3">
                <a
                  href="mailto:mansithakkar1123@gmail.com"
                  target="_blank"
@@ -731,7 +755,7 @@ const Home = ({ isLoading }) => {
                 </a>
              </div>
 
-             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg">
+             <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg">
                <h4 className="text-base sm:text-lg font-semibold mb-2 text-primary-700 text-center">Location</h4>
                <p className="text-sm sm:text-base text-secondary-600 text-center">Ahmedabad, India</p>
                <p className="text-xs sm:text-sm text-secondary-600 mt-1 text-center">Available for remote and on-site work</p>
