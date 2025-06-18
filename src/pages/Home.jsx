@@ -374,7 +374,7 @@ const Home = ({ isLoading }) => {
       />
 
       {/* Home section content */}
-      <main ref={homeRef} className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 transition-all duration-500 ease-out">
+      <main ref={homeRef} id="home" className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 transition-all duration-400 ease-out" style={{ willChange: 'opacity, transform' }}>
         <div className="max-w-4xl w-full space-y-8">
           {/* Profile Section */}
           <div className="text-center space-y-6">
@@ -478,7 +478,7 @@ const Home = ({ isLoading }) => {
       </main>
 
       {/* About Section Content - optimized for mobile */}
-      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 bg-gradient-mesh overflow-hidden transition-all duration-500 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      <section ref={aboutRef} id="about" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 bg-gradient-mesh overflow-hidden transition-all duration-400 ease-out ${isVisible.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ willChange: 'opacity, transform' }}>
          <div className="max-w-4xl w-full space-y-8 sm:space-y-12">
            {/* About Content */}
            <div className="text-center space-y-4 sm:space-y-6">
@@ -523,7 +523,7 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Projects Section Content - heavily optimized for mobile */}
-      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-200 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+      <section ref={projectsRef} id="projects" className={`relative min-h-screen flex flex-col items-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-400 ease-out ${isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`} style={{ willChange: 'opacity, transform' }}>
          <div className="max-w-6xl w-full space-y-4 sm:space-y-6">
            {/* Title Section */}
            <div className="w-full text-center py-4 sm:py-6">
@@ -589,7 +589,7 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Experience Section - optimized for mobile */}
-      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh transition-all duration-200 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+      <section ref={experienceRef} id="experience" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh transition-all duration-400 ease-out ${isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`} style={{ willChange: 'opacity, transform' }}>
         <div className="max-w-4xl w-full space-y-4 sm:space-y-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent pb-2">
             Experience
@@ -649,7 +649,7 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Skills Section - heavily optimized for mobile performance */}
-      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-200 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+      <section ref={skillsRef} id="skills" className={`relative flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-gradient-mesh overflow-hidden transition-all duration-400 ease-out ${isVisible.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`} style={{ willChange: 'opacity, transform' }}>
          <div className="max-w-4xl w-full space-y-4 sm:space-y-6">
            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent">
              Skills
@@ -711,7 +711,7 @@ const Home = ({ isLoading }) => {
       </section>
 
       {/* Contact Section - heavily optimized for mobile */}
-      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 pb-16 sm:pb-20 bg-gradient-mesh transition-all duration-200 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+      <section ref={contactRef} id="contact" className={`relative min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16 pb-16 sm:pb-20 bg-gradient-mesh transition-all duration-400 ease-out ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`} style={{ willChange: 'opacity, transform' }}>
         <div className="max-w-4xl w-full space-y-4 sm:space-y-6 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Get in Touch
