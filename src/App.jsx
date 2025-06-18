@@ -28,7 +28,7 @@ function App() {
 
   return (
     <Router>
-      <div className="relative min-h-screen bg-gray-900 text-white">
+      <div className="relative min-h-screen text-white">
         {isLoading && (
           <div className="fixed inset-0 flex items-center justify-center bg-gradient-mesh z-50">
             <div className="text-center px-4">
